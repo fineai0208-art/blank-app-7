@@ -218,7 +218,7 @@ yearly, by_country, incidents, health = load()
 st.markdown("""
 <div class="hero">
   <div class="hero-label">Aid Worker Security · MSF Staff Protection</div>
-  <h1>🏥 MSF 직원 피해 현황<br>2015 – 2025</h1>
+  <h1>🏥 MSF 직원 피해 현황 2015–2025</h1>
   <p>구호 현장의 공격·사망·납치 기록 | 출처: Aid Worker Security Database · WHO SSA · MSF Official</p>
 </div>
 """, unsafe_allow_html=True)
@@ -324,7 +324,8 @@ with t1:
     fig4 = make_subplots(rows=1, cols=3,
         subplot_titles=["사망자 수","부상자 수","납치 건수"],
         shared_yaxes=False)
-    for idx, (col_name, color, row, col) in enumerate([
+    FILL_MAP = {RED:"rgba(230,57,70,0.08)","#f59e0b":"rgba(245,158,11,0.08)","#457b9d":"rgba(69,123,157,0.08)"}
+    for idx, (col_name, color, r2, c2) in enumerate([
         ("killed", RED, 1, 1),
         ("wounded", "#f59e0b", 1, 2),
         ("kidnapped", "#457b9d", 1, 3),
@@ -335,9 +336,9 @@ with t1:
             mode="lines+markers",
             line=dict(color=color, width=2.5),
             marker=dict(size=6, color=color),
-            fill="tozeroy", fillcolor=color.replace("#","rgba(").replace(")", ",0.08)") if "#" in color else color,
-            hovertemplate=f"%{{x}}년: %{{y:,}}명<extra></extra>",
-            showlegend=False), row=row, col=col)
+            fill="tozeroy", fillcolor=FILL_MAP.get(color,"rgba(255,255,255,0.05)"),
+            hovertemplate="%{x}년: %{y:,}명<extra></extra>",
+            showlegend=False), row=r2, col=c2)
     fig4.update_layout(
         template="plotly_dark", paper_bgcolor=BG, plot_bgcolor=PBG,
         height=280, margin=dict(l=10,r=10,t=40,b=10),
